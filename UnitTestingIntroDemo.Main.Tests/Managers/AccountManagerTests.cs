@@ -1,11 +1,15 @@
-﻿using NUnit.Framework;
+﻿using FakeItEasy;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnitTestingIntroDemo.Main.Email;
 using UnitTestingIntroDemo.Main.Managers;
 using UnitTestingIntroDemo.Main.Models;
+using UnitTestingIntroDemo.Main.Repositories;
+using UnitTestingIntroDemo.Main.Validators;
 
 namespace UnitTestingIntroDemo.Main.Tests.Managers
 {
@@ -24,6 +28,27 @@ namespace UnitTestingIntroDemo.Main.Tests.Managers
 
             // Assert
             Assert.IsFalse(userWasRegistered);
+        }
+
+        [Test]
+        public void RegisterNewUser_ValidNewUser_ReturnsTrue_Framework()
+        {
+            // Arrange
+            var validUser = new User();
+
+            var validatorFake = A.Fake<UserValidator>();
+            var repositoryFake = A.Fake<UserRepository>();
+            var mailerFake = A.Fake<Mailer>();
+
+            A.CallTo(() => validatorFake.IsValid(validUser)).Returns(true);
+
+            var manager = new AccountManager(validatorFake, repositoryFake, mailerFake);
+
+            // Act
+            var userWasRegistered = manager.RegisterNewUser(validUser);
+
+            // Assert
+            Assert.IsTrue(userWasRegistered);
         }
     }
 }

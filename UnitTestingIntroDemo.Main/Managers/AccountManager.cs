@@ -24,6 +24,13 @@ namespace UnitTestingIntroDemo.Main.Managers
             _mailer = new Mailer();
         }
 
+        public AccountManager(UserValidator userValidator, UserRepository userRepository, Mailer mailer)
+        {
+            this._userValidator = userValidator;
+            this._userRepository = userRepository;
+            this._mailer = mailer;
+        }
+
         public bool RegisterNewUser(User newUser)
         {
             if (_userValidator.IsValid(newUser))

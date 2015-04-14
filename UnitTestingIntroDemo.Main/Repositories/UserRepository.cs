@@ -11,7 +11,7 @@ namespace UnitTestingIntroDemo.Main.Repositories
     {
         public virtual void Create(User newUser)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(string.Format("Creating new user: {0}", newUser.Email));
         }
 
         internal User FindById(int userId)

@@ -10,7 +10,7 @@ namespace UnitTestingIntroDemo.Main.Email
     {
         public virtual void Send(string from, string to, string subject, string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(string.Format("Sending email to '{0}'", to));
         }
     }
 }
