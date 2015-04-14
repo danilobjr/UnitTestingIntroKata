@@ -31,7 +31,7 @@ namespace UnitTestingIntroDemo.Main.Tests.Managers
         }
 
         [Test]
-        public void RegisterNewUser_ValidNewUser_ReturnsTrue_Framework()
+        public void RegisterNewUser_ValidNewUser_ReturnsTrue()
         {
             // Arrange
             var validUser = new User();
@@ -49,6 +49,48 @@ namespace UnitTestingIntroDemo.Main.Tests.Managers
 
             // Assert
             Assert.IsTrue(userWasRegistered);
+        }
+
+        [Test]
+        public void RegisterNewUser_ValidNewUser_CreateMethodOfUserRepositoryIsCalled()
+        {
+            // Arrange
+            var validUser = new User();
+
+            var validatorFake = A.Fake<UserValidator>();
+            var repositoryFake = A.Fake<UserRepository>();
+            var mailerFake = A.Fake<Mailer>();
+
+            A.CallTo(() => validatorFake.IsValid(validUser)).Returns(true);
+
+            var manager = new AccountManager(validatorFake, repositoryFake, mailerFake);
+
+            // Act
+            manager.RegisterNewUser(validUser);
+
+            // Assert
+            A.CallTo(() => repositoryFake.Create(validUser)).MustHaveHappened();
+        }
+
+        [Test]
+        public void RegisterNewUser_ValidNewUser_SendMethodOfMailerIsCalled()
+        {
+            // Arrange
+            var validUser = new User();
+
+            var validatorFake = A.Fake<UserValidator>();
+            var repositoryFake = A.Fake<UserRepository>();
+            var mailerFake = A.Fake<Mailer>();
+
+            A.CallTo(() => validatorFake.IsValid(validUser)).Returns(true);
+
+            var manager = new AccountManager(validatorFake, repositoryFake, mailerFake);
+
+            // Act
+            manager.RegisterNewUser(validUser);
+
+            // Assert
+            A.CallTo(() => mailerFake.Send("no@reply", validUser.Email, "Welcome", "Welcome email message")).MustHaveHappened();
         }
     }
 }
