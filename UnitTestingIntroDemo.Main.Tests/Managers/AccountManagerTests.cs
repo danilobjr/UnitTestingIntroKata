@@ -55,19 +55,21 @@ namespace UnitTestingIntroDemo.Main.Tests.Managers
         public void RegisterNewUser_ValidNewUser_CreateMethodOfUserRepositoryIsCalled()
         {
             // Arrange
+            var validUser = new User();
+
             var validatorFake = A.Fake<UserValidator>();
             var repositoryFake = A.Fake<UserRepository>();
             var mailerFake = A.Fake<Mailer>();
 
-            A.CallTo(() => validatorFake.IsValid(VALID_USER)).Returns(true);
+            A.CallTo(() => validatorFake.IsValid(validUser)).Returns(true);
 
             var manager = new AccountManager(validatorFake, repositoryFake, mailerFake);
 
             // Act
-            manager.RegisterNewUser(VALID_USER);
+            manager.RegisterNewUser(validUser);
 
             // Assert
-            A.CallTo(() => repositoryFake.Create(VALID_USER)).MustHaveHappened();
+            A.CallTo(() => repositoryFake.Create(validUser)).MustHaveHappened();
         }
 
         [Test]
