@@ -16,12 +16,19 @@ namespace UnitTestingIntroDemo.Main.Repositories
 
         internal User FindById(int userId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(string.Format("EXTERNAL DEPENDENCY - Inserting user in DB. Id: {0}...", userId));
+
+            return new User
+            {
+                Id = userId,
+                Email = "founduser@email.com",
+                Password = "f0undU$3r"
+            };
         }
 
         internal void Delete(int userId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(string.Format("EXTERNAL DEPENDENCY - Deleting user from DB. Id: {0}...", userId));
         }
     }
 }

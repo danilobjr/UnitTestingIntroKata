@@ -46,14 +46,12 @@ namespace UnitTestingIntroDemo.Main.Managers
                 throw new NotFoundException("User not found");
             }
 
-            if (!user.IsActive)
-            {
-                _userRepository.Delete(userId);
-            }
-            else
+            if (user.IsActive)
             {
                 throw new InvalidOperationException("Cannot delete a active user");
             }
+
+            _userRepository.Delete(userId);
         }
     }
 }

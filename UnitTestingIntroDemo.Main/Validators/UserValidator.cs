@@ -10,10 +10,6 @@ namespace UnitTestingIntroDemo.Main.Validators
 {
     public class UserValidator
     {
-        public UserValidator()
-        {
-        }
-
         public virtual bool IsValid(User user)
         {
             if (string.IsNullOrEmpty(user.Email)) { return false; }
